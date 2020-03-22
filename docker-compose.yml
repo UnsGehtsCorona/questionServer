@@ -8,6 +8,8 @@ services:
     restart: always
     networks:
       - database
+    environment:
+      MONGO_HOST: mongo:27017
     ports:
       - 8080:8080
 
@@ -17,6 +19,8 @@ services:
     restart: always
     networks:
       - database
+    ports:
+      - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: wirsindcorona

@@ -2,8 +2,10 @@ package database
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"sync"
+	config2 "wirsindcorona/config"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -13,11 +15,13 @@ var once sync.Once
 var client *mongo.Client
 
 func ConnectMongoDb() *mongo.Client {
+	cfg := config2.GetConfig().MongoDB
+
 	once.Do(func() {
-		clientOptions := options.Client().ApplyURI("mongodb://mongo:27017")
+		clientOptions := options.Client().ApplyURI(fmt.Sprintf("mongodb://%s", cfg.Host))
 		clientOptions.Auth = &options.Credential{
-			Username: "root",
-			Password: "wirsindcorona",
+			Username: cfg.Username,
+			Password: cfg.Password,
 		}
 
 		c, err := mongo.Connect(context.TODO(), clientOptions)

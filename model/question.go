@@ -1,12 +1,13 @@
 package model
 
 type Question struct {
-	Quid string
+	Quid     string
+	Sort     int64
 	Question string
-	Answers []Answer
+	Answers  []Answer
 }
 
 type Answer struct {
-	Auid string
+	Auid   string
 	Answer string
 }

@@ -4,11 +4,14 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"log"
+	"wirsindcorona/config"
 	"wirsindcorona/database"
 	"wirsindcorona/route"
 )
 
 func main() {
+	config.Init()
+
 	database.ConnectMongoDb()
 	defer database.Disconnect()
 
