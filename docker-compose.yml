@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  server:
+    build:
+      context: .
+    hostname: server
+    restart: always
+    networks:
+      - database
+    ports:
+      - 8080:8080
+
+  mongo:
+    image: mongo
+    hostname: mongo
+    restart: always
+    networks:
+      - database
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: wirsindcorona
+
+networks:
+  database:
