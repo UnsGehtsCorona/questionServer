@@ -14,4 +14,5 @@ FROM alpine as prod
 RUN mkdir -p /app
 
 COPY --from=builder /app /app
+EXPOSE 8080
 CMD ["/app/main"]

@@ -20,7 +20,7 @@ func main() {
 
 	route.InitQuestionRoute(r.Group("/questions"))
 
-	rerr := r.Run()
+	rerr := r.Run("0.0.0.0:8080")
 	if rerr != nil {
 		log.Panic(rerr)
 	}
