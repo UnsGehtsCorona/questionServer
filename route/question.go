@@ -4,29 +4,12 @@ import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"log"
 	"net/http"
-	"wirsindcorona/database"
 	"wirsindcorona/model"
 	"wirsindcorona/reponse"
 )
 
-var questionsColl *mongo.Collection
-
 func InitQuestionRoute(route *gin.RouterGroup) {
-	questionsColl = database.GetDatabase().Collection("questionsColl")
-	if _, err := questionsColl.Indexes().CreateOne(
-		context.Background(),
-		mongo.IndexModel{
-			Keys:    bson.D{{"quid", 1}},
-			Options: options.Index().SetUnique(true),
-		},
-	); err != nil {
-		log.Fatal(err)
-	}
-
 	route.POST("", createQuestion)
 	route.GET("", getQuestions)
 	route.GET(":quid", getQuestion)

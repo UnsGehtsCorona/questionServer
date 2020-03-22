@@ -6,10 +6,10 @@ type Question struct {
 	Quid     string
 	Sort     int64
 	Question string
-	Answers  []Answer
+	Answers  []QuestionAnswer
 }
 
-type Answer struct {
+type QuestionAnswer struct {
 	Auid   string
 	Sort   int64
 	Answer string
@@ -22,6 +22,6 @@ func (q *Question) GenerateQuid() {
 	}
 }
 
-func (a *Answer) GenerateAuid() {
+func (a *QuestionAnswer) GenerateAuid() {
 	a.Auid = lib.GenerateUid(a.Answer)
 }
