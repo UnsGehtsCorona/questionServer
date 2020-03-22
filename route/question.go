@@ -29,17 +29,21 @@ func InitQuestionRoute(route *gin.RouterGroup) {
 
 	route.POST("", createQuestion)
 	route.GET("", getQuestions)
+	route.GET(":quid", getQuestion)
 	route.PUT("", updateQuestion)
 	route.DELETE(":quid", deleteQuestion)
 }
 
 func createQuestion(gc *gin.Context) {
 	question := model.Question{}
+
 	jerr := gc.ShouldBindJSON(&question)
 	if jerr != nil {
 		gc.JSON(http.StatusUnprocessableEntity, reponse.ReturnError(jerr))
 		return
 	}
+
+	question.GenerateQuid()
 
 	_, ier := questionsColl.InsertOne(context.TODO(), &question)
 	if ier != nil {
@@ -70,6 +74,21 @@ func getQuestions(gc *gin.Context) {
 	}
 
 	gc.JSON(http.StatusOK, reponse.ReturnData(questions))
+}
+
+func getQuestion(gc *gin.Context) {
+	quid := gc.Param("quid")
+
+	res := questionsColl.FindOne(context.TODO(), bson.D{{"quid", quid}})
+
+	var question model.Question
+	derr := res.Decode(&question)
+	if derr != nil {
+		gc.JSON(http.StatusInternalServerError, reponse.ReturnError(derr))
+		return
+	}
+
+	gc.JSON(http.StatusOK, reponse.ReturnData(question))
 }
 
 func updateQuestion(gc *gin.Context) {
