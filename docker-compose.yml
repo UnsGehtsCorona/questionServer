@@ -12,7 +12,7 @@ services:
       GIN_MODE: release
       MONGO_HOST: mongo:27017
     ports:
-      - 8080:8080
+      - 3334:8080
 
   mongo:
     image: mongo
@@ -20,8 +20,8 @@ services:
     restart: always
     networks:
       - database
-#    volumes:
-#      - ./localFolder:/data/db
+    volumes:
+      - ./localFolder:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: wirsindcorona
